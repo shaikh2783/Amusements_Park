@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:iisc_app/Screens/OnBoarding/View/ForgotPasswordView.dart';
 import 'package:iisc_app/Screens/OnBoarding/View/LoginView.dart';
 
+import '../../Screens/OnBoarding/View/SignUpView.dart';
+
 class RouteManagement {
 
   // Future routeToOnboarding({bool isFromSplash = false}) async {
@@ -27,6 +29,10 @@ class RouteManagement {
   }
   Future routeToForgotPassword() async {
     const route =  ForgotPasswordView();
+    Get.to(() => route);
+  }
+  Future routeToSignUpView() async {
+    const route =  SignUpView();
     Get.to(() => route);
   }
 

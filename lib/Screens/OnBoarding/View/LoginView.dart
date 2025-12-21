@@ -311,7 +311,9 @@ class LoginViewState extends State<LoginView> {
                                     fontWeight: FontWeight.normal),
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  RouteManagement().routeToSignUpView();
+                                },
                                 child: Text(
                                   'Sign Up',
                                   style: TextStyle(
