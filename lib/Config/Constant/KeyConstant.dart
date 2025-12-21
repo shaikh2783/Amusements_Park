@@ -5,6 +5,13 @@ class SharedPrefKey {
 }
 
 class GetxUpdateKey {
+  static const forgotPassword = "forgotPassword";
+  static const login = "login";
+  static const signup = "signup";
+  static const home = "home";
+}
+
+class RouteName {
   static const dashboard = "dashboard";
 }
 

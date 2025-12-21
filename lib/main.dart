@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:iisc_app/Config/Constant/ColorsConstant.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:sizing/sizing.dart';
-import 'Screens/Splash/SplashView.dart';
+import 'Screens/OnBoarding/View/SplashView.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

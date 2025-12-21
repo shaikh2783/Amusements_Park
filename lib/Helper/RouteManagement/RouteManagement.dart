@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:iisc_app/Screens/OnBoarding/View/ForgotPasswordView.dart';
+import 'package:iisc_app/Screens/OnBoarding/View/LoginView.dart';
 
 class RouteManagement {
 
@@ -19,9 +21,13 @@ class RouteManagement {
   //   await HiveStore().clearHiveBox();
   //   routeToOnboarding();
   // }
-  // Future routeToLogin({bool isForPensioner=false}) async {
-  //   final route =  LoginView(isForPensioner: isForPensioner,);
-  //   Get.to(() => route);
-  // }
+  Future routeToLogin() async {
+    const route =  LoginView();
+    Get.off(() => route);
+  }
+  Future routeToForgotPassword() async {
+    const route =  ForgotPasswordView();
+    Get.to(() => route);
+  }
 
 }
