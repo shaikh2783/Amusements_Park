@@ -1,0 +1,2 @@
+/Users/shaikhasfak/AndroidStudioProjects/IISC/IISCMobileApp/android/app/.cxx/Debug/6fs5y561/x86/CMakeFiles/edit_cache.dir
+/Users/shaikhasfak/AndroidStudioProjects/IISC/IISCMobileApp/android/app/.cxx/Debug/6fs5y561/x86/CMakeFiles/rebuild_cache.dir

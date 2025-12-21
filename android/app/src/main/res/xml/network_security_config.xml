@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Block cleartext by default -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- (Optional) Example: allow HTTP only for localhost in DEBUG builds -->
+    <!-- Remove this whole domain-config in release -->
+    <!--
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">127.0.0.1</domain>
+        <domain includeSubdomains="true">localhost</domain>
+    </domain-config>
+    -->
+</network-security-config>
