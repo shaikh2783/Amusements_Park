@@ -15,15 +15,16 @@ class LoginView extends StatefulWidget {
 }
 
 class LoginViewState extends State<LoginView> {
-
-  final LoginController controller=Get.put(LoginController());
+  final LoginController controller = Get.put(LoginController());
 
   bool rememberMe = true;
   bool obscurePassword = true;
+
   @override
   void initState() {
     super.initState();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -33,58 +34,65 @@ class LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<LoginController>(
-      id: GetxUpdateKey.login,
-      builder: (value) {
-        return Scaffold(
-          body: Stack(
-            fit: StackFit.expand,
-            children: [
-              // 🔹 Background
-              Image.asset(
-                'assets/image/login_bg.png',
+        id: GetxUpdateKey.login,
+        builder: (value) {
+          final bottomInset = MediaQuery.of(context).viewPadding.bottom;
+
+          return Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/image/login_bg.png'),
                 fit: BoxFit.cover,
               ),
-
-              SafeArea(
+            ),
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: SafeArea(
                 bottom: false,
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(20.ss, 100.ss, 20.ss, 20.ss),
+                    padding: EdgeInsets.fromLTRB(
+                      24.ss,
+                      118.ss,
+                      24.ss,
+                      24.ss + bottomInset,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SvgPicture.asset(
                           'assets/icons/ic_login_icon.svg',
                           width: 65.ss,
-                          height: 65.ss,
+                          height: 64.ss,
                         ),
 
-                        SizedBox(height: 12.ss),
+                        SizedBox(height: 16.ss),
                         Text(
                           'Login Account',
                           style: TextStyle(
                             fontSize: 20.fs,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
 
-                        SizedBox(height: 6.ss),
+                        SizedBox(height: 4.ss),
                         Text(
-                          'Enter your email and password, or continue with Apple or Google.',
+                          'Enter your email and password, or\ncontinue with Apple or Google.',
                           style: TextStyle(
                             fontSize: 14.fs,
+                            fontWeight: FontWeight.normal,
                             color: ColorsConstant.colorSecondary,
                           ),
                         ),
 
-                        SizedBox(height: 30.ss),
+                        SizedBox(height: 24.ss),
 
                         _inputField(
                           hint: 'Email',
                           icon: Icons.email_outlined,
                         ),
 
-                        SizedBox(height: 16.ss),
+                        SizedBox(height: 12.ss),
 
                         _inputField(
                           hint: 'Password',
@@ -107,7 +115,7 @@ class LoginViewState extends State<LoginView> {
                         Visibility(
                             visible: controller.errorMsg.isNotEmpty,
                             child: Padding(
-                              padding:  EdgeInsets.only(top: 8.ss),
+                              padding: EdgeInsets.only(top: 5.ss),
                               child: Row(
                                 children: [
                                   Icon(Icons.error_outline_sharp,
@@ -122,7 +130,7 @@ class LoginViewState extends State<LoginView> {
                                 ],
                               ),
                             )),
-                        SizedBox(height: 14.ss),
+                        SizedBox(height: 12.ss),
 
                         Row(
                           children: [
@@ -135,11 +143,12 @@ class LoginViewState extends State<LoginView> {
                               child: Row(
                                 children: [
                                   Container(
-                                    width: 20,
-                                    height: 20,
+                                    width: 18.ss,
+                                    height: 18.ss,
                                     decoration: BoxDecoration(
-                                      color: rememberMe ? ColorsConstant
-                                          .colorRed : Colors.white,
+                                      color: rememberMe
+                                          ? ColorsConstant.colorRed
+                                          : Colors.white,
                                       borderRadius: BorderRadius.circular(6),
                                       border: Border.all(
                                         color: rememberMe
@@ -148,18 +157,19 @@ class LoginViewState extends State<LoginView> {
                                       ),
                                     ),
                                     child: rememberMe
-                                        ? const Icon(
-                                      Icons.check,
-                                      size: 14,
-                                      color: Colors.white,
-                                    )
+                                        ?  Icon(
+                                            Icons.check,
+                                            size: 14.ss,
+                                            color: Colors.white,
+                                          )
                                         : null,
                                   ),
-                                  const SizedBox(width: 8),
-                                  Text('Remember me', style: TextStyle(
-                                      color: ColorsConstant.colorSecondary,
-                                      fontSize: 13.fs,
-                                      fontWeight: FontWeight.normal)),
+                                   SizedBox(width: 8.ss),
+                                  Text('Remember me',
+                                      style: TextStyle(
+                                          color: ColorsConstant.colorSecondary,
+                                          fontSize: 13.fs,
+                                          fontWeight: FontWeight.normal)),
                                 ],
                               ),
                             ),
@@ -170,7 +180,8 @@ class LoginViewState extends State<LoginView> {
                               },
                               child: Text(
                                 'Forgot password?',
-                                style: TextStyle(color: ColorsConstant.colorRed,
+                                style: TextStyle(
+                                    color: ColorsConstant.colorRed,
                                     fontSize: 13.fs,
                                     fontWeight: FontWeight.normal),
                               ),
@@ -183,7 +194,7 @@ class LoginViewState extends State<LoginView> {
                         /// Sign In Button
                         SizedBox(
                           width: double.infinity,
-                          height: 52,
+                          height: 49.ss,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: ColorsConstant.colorRed,
@@ -198,9 +209,8 @@ class LoginViewState extends State<LoginView> {
                               'Sign In',
                               style: TextStyle(
                                   fontSize: 14.fs,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.white
-                              ),
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
                             ),
                           ),
                         ),
@@ -210,12 +220,10 @@ class LoginViewState extends State<LoginView> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const Expanded(
-                              child: Divider(
-                                  color: ColorsConstant.colorDivider),
+                              child: Divider(color: ColorsConstant.colorDivider),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12),
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
                               child: Text(
                                 'Or Login with',
                                 style: TextStyle(
@@ -225,8 +233,7 @@ class LoginViewState extends State<LoginView> {
                               ),
                             ),
                             const Expanded(
-                              child: Divider(
-                                  color: ColorsConstant.colorDivider),
+                              child: Divider(color: ColorsConstant.colorDivider),
                             ),
                           ],
                         ),
@@ -236,9 +243,8 @@ class LoginViewState extends State<LoginView> {
                           children: [
                             Expanded(
                               child: Container(
-                                padding: EdgeInsets.all(12.ss),
-                                decoration:
-                                BoxDecoration(
+                                padding: EdgeInsets.all(14.ss),
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24.ss),
                                   border: Border.all(
                                       color: ColorsConstant.colorDivider,
@@ -257,7 +263,8 @@ class LoginViewState extends State<LoginView> {
                                     SizedBox(width: 10.ss),
                                     Text(
                                       'Google',
-                                      style: TextStyle(color: Colors.black,
+                                      style: TextStyle(
+                                          color: Colors.black,
                                           fontSize: 14.fs,
                                           fontWeight: FontWeight.normal),
                                     )
@@ -269,15 +276,13 @@ class LoginViewState extends State<LoginView> {
                             Expanded(
                               child: Container(
                                 padding: EdgeInsets.all(12.ss),
-                                decoration:
-                                BoxDecoration(
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24.ss),
                                   border: Border.all(
                                       color: ColorsConstant.colorDivider,
                                       width: 1.ss),
                                 ),
-                                child:
-                                Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -290,7 +295,8 @@ class LoginViewState extends State<LoginView> {
                                     SizedBox(width: 10.ss),
                                     Text(
                                       'Apple',
-                                      style: TextStyle(color: Colors.black,
+                                      style: TextStyle(
+                                          color: Colors.black,
                                           fontSize: 14.fs,
                                           fontWeight: FontWeight.normal),
                                     )
@@ -300,13 +306,14 @@ class LoginViewState extends State<LoginView> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 24.ss),
+                        SizedBox(height: 18.ss),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 'Don\'t have an account?',
-                                style: TextStyle(color: Colors.black,
+                                style: TextStyle(
+                                    color: Colors.black,
                                     fontSize: 14.fs,
                                     fontWeight: FontWeight.normal),
                               ),
@@ -324,18 +331,15 @@ class LoginViewState extends State<LoginView> {
                                       fontWeight: FontWeight.w500),
                                 ),
                               )
-                            ]
-                        )
-
+                            ])
                       ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-        );
-      });
+            ),
+          );
+        });
   }
 
   Widget _inputField({
@@ -348,12 +352,12 @@ class LoginViewState extends State<LoginView> {
       obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(fontSize: 14.fs,color: ColorsConstant.colorText),
+        hintStyle: TextStyle(fontSize: 14.fs, color: ColorsConstant.colorText),
         prefixIcon: Icon(icon),
         suffixIcon: suffix,
         filled: true,
         fillColor: Colors.white,
-        contentPadding:  EdgeInsets.symmetric(vertical: 16.ss),
+        contentPadding: EdgeInsets.symmetric(vertical: 16.ss,horizontal: 16.ss),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.ss),
           borderSide: BorderSide(color: Colors.grey.shade300),
@@ -364,14 +368,14 @@ class LoginViewState extends State<LoginView> {
         ),
       ),
       onChanged: (value) {
-        if(value.isNotEmpty){
-          controller.errorMsg="";
+        if (value.isNotEmpty) {
+          controller.errorMsg = "";
           controller.update([GetxUpdateKey.login]);
         }
-        if(hint=="Email"){
-          controller.email.value=value;
-        }else{
-          controller.password.value=value;
+        if (hint == "Email") {
+          controller.email.value = value;
+        } else {
+          controller.password.value = value;
         }
       },
     );

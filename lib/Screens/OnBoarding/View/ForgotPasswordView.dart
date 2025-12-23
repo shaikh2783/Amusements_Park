@@ -41,139 +41,134 @@ class _LoginViewState extends State<ForgotPasswordView> {
     return GetBuilder<ForgotPasswordController>(
         id: GetxUpdateKey.forgotPassword,
         builder: (value) {
-          return Scaffold(
-            resizeToAvoidBottomInset: true,
-            body: Stack(
-              fit: StackFit.expand,
-              children: [
-                MediaQuery.removeViewInsets(
-                  context: context,
-                  removeBottom: true,
-                  child: Image.asset(
-                    'assets/image/login_bg.png',
-                    fit: BoxFit.cover,
-                  ),
+          return Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/image/login_bg.png'),
+                  fit: BoxFit.cover,
                 ),
-                SafeArea(
-                  bottom: false,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(20.ss, 30.ss, 20.ss, 20.ss),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                              onTap: () {
-                                controller.handleBackPress();
-                              },
-                              child: Icon(Icons.arrow_back_sharp, size: 24.ss)),
-                          SizedBox(height: 60.ss),
-                          SvgPicture.asset(
-                            'assets/icons/ic_login_icon.svg',
-                            width: 65.ss,
-                            height: 65.ss,
-                          ),
-                          SizedBox(height: 12.ss),
-                          Text(
-                            controller.getViewTitle(),
-                            style: TextStyle(
-                              fontSize: 20.fs,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 6.ss),
-                          Text(
-                            controller.getViewSubTitle(),
-                            style: TextStyle(
-                              fontSize: 14.fs,
-                              color: ColorsConstant.colorSecondary,
-                            ),
-                          ),
-                          SizedBox(height: 30.ss),
-                          Obx(() {
-                            switch (controller.forgotPasswordType.value) {
-                              case ForgotPasswordTypes.forgotEmail:
-                                return _inputField(
-                                  hint: 'Email',
-                                  icon: Icons.email_outlined,
-                                );
-
-                              case ForgotPasswordTypes.forgotOTP:
-                                return _otpInputView();
-
-                              case ForgotPasswordTypes.forgotResetPassword:
-                                return Column(
-                                  children: [
-                                    _inputField(
-                                      hint: 'New Password',
-                                      icon: Icons.lock_outline,
-                                      obscureText: obscurePassword,
-                                      suffix: IconButton(
-                                        icon: Icon(
-                                          obscurePassword
-                                              ? Icons.visibility_off
-                                              : Icons.visibility,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            obscurePassword = !obscurePassword;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(height: 16.ss),
-                                    _inputField(
-                                      hint: 'Confirm Password',
-                                      icon: Icons.lock_outline,
-                                      obscureText: obscureConfirmPassword,
-                                      suffix: IconButton(
-                                        icon: Icon(
-                                          obscureConfirmPassword
-                                              ? Icons.visibility_off
-                                              : Icons.visibility,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            obscureConfirmPassword =
-                                                !obscureConfirmPassword;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                );
-                            }
-                          }),
-                          Visibility(
-                              visible: controller.errorMsg.isNotEmpty,
-                              child: Padding(
-                                padding:  EdgeInsets.only(top: 8.ss),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.error_outline_sharp,
-                                        size: 16.ss,
-                                        color: ColorsConstant.colorRed),
-                                    SizedBox(width: 4.ss),
-                                    Text(controller.errorMsg,
-                                        style: TextStyle(
-                                            fontSize: 13.fs,
-                                            color: ColorsConstant.colorRed,
-                                            fontWeight: FontWeight.normal)),
-                                  ],
-                                ),
-                              )),
-                          SizedBox(height: 16.ss),
-                        ],
+              ),
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+            body: SafeArea(
+              bottom: false,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(24.ss, 16.ss, 24.ss, 24.ss),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            controller.handleBackPress();
+                          },
+                          child: Icon(Icons.arrow_back_sharp, size: 24.ss)),
+                      SizedBox(height: 72.ss),
+                      SvgPicture.asset(
+                        'assets/icons/ic_login_icon.svg',
+                        width: 65.ss,
+                        height: 64.ss,
                       ),
-                    ),
+                      SizedBox(height: 16.ss),
+                      Text(
+                        controller.getViewTitle(),
+                        style: TextStyle(
+                          fontSize: 20.fs,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      SizedBox(height: 4.ss),
+                      Text(
+                        controller.getViewSubTitle(),
+                        style: TextStyle(
+                          fontSize: 14.fs,
+                          color: ColorsConstant.colorSecondary,
+                        ),
+                      ),
+                      SizedBox(height: 24.ss),
+                      Obx(() {
+                        switch (controller.forgotPasswordType.value) {
+                          case ForgotPasswordTypes.forgotEmail:
+                            return _inputField(
+                              hint: 'Email',
+                              icon: Icons.email_outlined,
+                            );
+
+                          case ForgotPasswordTypes.forgotOTP:
+                              return _otpInputView();
+
+
+                          case ForgotPasswordTypes.forgotResetPassword:
+                            return Column(
+                              children: [
+                                _inputField(
+                                  hint: 'New Password',
+                                  icon: Icons.lock_outline,
+                                  obscureText: obscurePassword,
+                                  suffix: IconButton(
+                                    icon: Icon(
+                                      obscurePassword
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        obscurePassword = !obscurePassword;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                SizedBox(height: 12.ss),
+                                _inputField(
+                                  hint: 'Confirm Password',
+                                  icon: Icons.lock_outline,
+                                  obscureText: obscureConfirmPassword,
+                                  suffix: IconButton(
+                                    icon: Icon(
+                                      obscureConfirmPassword
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        obscureConfirmPassword =
+                                            !obscureConfirmPassword;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                        }
+                      }),
+                      Visibility(
+                          visible: controller.errorMsg.isNotEmpty,
+                          child: Padding(
+                            padding:  EdgeInsets.only(top: 8.ss),
+                            child: Row(
+                              children: [
+                                Icon(Icons.error_outline_sharp,
+                                    size: 16.ss,
+                                    color: ColorsConstant.colorRed),
+                                SizedBox(width: 4.ss),
+                                Text(controller.errorMsg,
+                                    style: TextStyle(
+                                        fontSize: 13.fs,
+                                        color: ColorsConstant.colorRed,
+                                        fontWeight: FontWeight.normal)),
+                              ],
+                            ),
+                          )),
+                      SizedBox(height: 16.ss),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
             bottomNavigationBar: _actionButton(),
-          );
+          ));
         });
   }
 
@@ -183,10 +178,9 @@ class _LoginViewState extends State<ForgotPasswordView> {
     return Container(
       color: Colors.white, // solid background
       padding: EdgeInsets.only(
-        left: 20.ss,
-        right: 20.ss,
-        top: 10.ss,
-        bottom: bottomInset > 0 ? bottomInset + 12.ss : 20.ss,
+        left: 24.ss,
+        right: 24.ss,
+        bottom: bottomInset > 0 ? bottomInset + 12.ss : 24.ss,
       ),
       child: SafeArea(
         top: false,
@@ -195,7 +189,7 @@ class _LoginViewState extends State<ForgotPasswordView> {
           children: [
             SizedBox(
               width: double.infinity,
-              height: 50.ss,
+              height: 49.ss,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorsConstant.colorRed,
@@ -219,6 +213,7 @@ class _LoginViewState extends State<ForgotPasswordView> {
                   controller.getActionButtonText(),
                   style: TextStyle(
                     fontSize: 14.fs,
+                    fontWeight: FontWeight.w500,
                     color: Colors.white,
                   ),
                 ),
@@ -227,18 +222,18 @@ class _LoginViewState extends State<ForgotPasswordView> {
             if (controller.forgotPasswordType.value ==
                 ForgotPasswordTypes.forgotEmail)
               Padding(
-                padding: EdgeInsets.only(top: 16.ss),
+                padding: EdgeInsets.only(top: 24.ss),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account?",
+                      "Remember Password?",
                       style: TextStyle(fontSize: 14.fs),
                     ),
                     TextButton(
                       onPressed: () {},
                       child: Text(
-                        "Sign Up",
+                        "Sign In",
                         style: TextStyle(
                           decoration: TextDecoration.underline,
                           color: ColorsConstant.colorRed,
@@ -257,8 +252,8 @@ class _LoginViewState extends State<ForgotPasswordView> {
 
   Widget _otpInputView() {
     final defaultPinTheme = PinTheme(
-      width: 48.ss,
-      height: 52.ss,
+      width: 56.ss,
+      height: 56.ss,
       textStyle: TextStyle(
         fontSize: 18.fs,
         fontWeight: FontWeight.w600,
@@ -279,15 +274,39 @@ class _LoginViewState extends State<ForgotPasswordView> {
           keyboardType: TextInputType.number,
           autofocus: true,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          defaultPinTheme: defaultPinTheme,
+          defaultPinTheme: PinTheme(
+            width: 56.ss,
+            height: 56.ss,
+            textStyle: TextStyle(
+              color: Colors.black,
+              fontSize: 22.fss,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.ss),
+              border: Border.all(color: controller.errorMsg.isNotEmpty
+                  ? Colors.red
+                  : Colors.grey),
+            ),
+          ),
           focusedPinTheme: defaultPinTheme.copyDecorationWith(
             border: Border.all(
               color: ColorsConstant.colorRed,
               width: 1.5,
             ),
           ),
-          submittedPinTheme: defaultPinTheme.copyDecorationWith(
-            border: Border.all(color: Colors.green),
+          submittedPinTheme: PinTheme(
+            width: 56.ss,
+            height: 56.ss,
+            textStyle: TextStyle(
+              color: Colors.black,
+              fontSize: 22.fss,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.ss),
+              border: Border.all(color: controller.errorMsg.isNotEmpty
+                  ? Colors.red
+                  : ColorsConstant.colorPrimary, width: 2.ss),
+            ),
           ),
           onChanged: (value)
           {
@@ -298,6 +317,32 @@ class _LoginViewState extends State<ForgotPasswordView> {
           },
           // onCompleted: controller.verifyOtp,
         ),
+        SizedBox(height: 24.ss),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              "Resend?",
+              style: TextStyle(
+                decoration: TextDecoration.underline,
+                color: Colors.black,
+                fontSize: 14.fs,
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                "Second Left",
+                style: TextStyle(
+                  color: ColorsConstant.colorText,
+                  fontSize: 14.fs,
+                ),
+              ),
+            ),
+          ],
+        )
+
       ],
     );
   }

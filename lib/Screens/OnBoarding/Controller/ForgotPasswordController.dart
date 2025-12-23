@@ -17,7 +17,7 @@ class ForgotPasswordController extends GetxController{
   var errorMsg="";
 
   void checkEmailId() {
-    if (!GetUtils.isEmail(email.value)) {
+    if (!GetUtils.isEmail(email.value) || email.value.isEmpty) {
       errorMsg = "Email is not correct";
       update([GetxUpdateKey.forgotPassword]);
       return;
@@ -87,9 +87,9 @@ class ForgotPasswordController extends GetxController{
   String getViewSubTitle(){
       switch(forgotPasswordType.value){
         case ForgotPasswordTypes.forgotEmail:
-          return "Enter your registered email. We will send you an OTP to reset your password.";
+          return "Enter your registered email. We will send\nyou an OTP to reset your password.";
         case ForgotPasswordTypes.forgotOTP:
-          return "We have sent a 6-digit OTP to $email";
+          return "We have sent a 6-digit OTP to\n$email";
         case ForgotPasswordTypes.forgotResetPassword:
           return "Enter and confirm your new password below.";
       }

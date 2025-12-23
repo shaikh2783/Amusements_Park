@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iisc_app/Config/Constant/ColorsConstant.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:sizing/sizing.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             themeMode: ThemeMode.light,
             theme: ThemeData(
-              fontFamily: 'inter',
+              textTheme: GoogleFonts.poppinsTextTheme(),
               appBarTheme: const AppBarTheme(
                 backgroundColor: ColorsConstant.colorPrimary,
                 elevation: 0,
