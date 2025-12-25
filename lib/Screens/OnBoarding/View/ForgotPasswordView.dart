@@ -10,6 +10,8 @@ import 'package:iisc_app/Screens/OnBoarding/Controller/ForgotPasswordController.
 import 'package:pinput/pinput.dart';
 import 'package:sizing/sizing.dart';
 
+import '../../../Helper/AppInputField.dart';
+
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({super.key});
 
@@ -36,6 +38,7 @@ class _LoginViewState extends State<ForgotPasswordView> {
     super.dispose();
     Get.delete<ForgotPasswordController>();
   }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ForgotPasswordController>(
@@ -50,125 +53,129 @@ class _LoginViewState extends State<ForgotPasswordView> {
               ),
               child: Scaffold(
                 backgroundColor: Colors.transparent,
-            body: SafeArea(
-              bottom: false,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(24.ss, 16.ss, 24.ss, 24.ss),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            controller.handleBackPress();
-                          },
-                          child: Icon(Icons.arrow_back_sharp, size: 24.ss)),
-                      SizedBox(height: 72.ss),
-                      SvgPicture.asset(
-                        'assets/icons/ic_login_icon.svg',
-                        width: 65.ss,
-                        height: 64.ss,
-                      ),
-                      SizedBox(height: 16.ss),
-                      Text(
-                        controller.getViewTitle(),
-                        style: TextStyle(
-                          fontSize: 20.fs,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      SizedBox(height: 4.ss),
-                      Text(
-                        controller.getViewSubTitle(),
-                        style: TextStyle(
-                          fontSize: 14.fs,
-                          color: ColorsConstant.colorSecondary,
-                        ),
-                      ),
-                      SizedBox(height: 24.ss),
-                      Obx(() {
-                        switch (controller.forgotPasswordType.value) {
-                          case ForgotPasswordTypes.forgotEmail:
-                            return _inputField(
-                              hint: 'Email',
-                              icon: Icons.email_outlined,
-                            );
+                body: SafeArea(
+                  bottom: false,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(24.ss, 16.ss, 24.ss, 24.ss),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                controller.handleBackPress();
+                              },
+                              child:SvgPicture.asset('assets/icons/ic_back.svg',height: 23.ss,width: 24.ss,)),
+                          SizedBox(height: 72.ss),
+                          SvgPicture.asset(
+                            'assets/icons/ic_login_icon.svg',
+                            width: 65.ss,
+                            height: 64.ss,
+                          ),
+                          SizedBox(height: 16.ss),
+                          Text(
+                            controller.getViewTitle(),
+                            style: TextStyle(
+                              fontSize: 20.fs,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          SizedBox(height: 4.ss),
+                          Text(
+                            controller.getViewSubTitle(),
+                            style: TextStyle(
+                              fontSize: 14.fs,
+                              color: ColorsConstant.colorSecondary,
+                            ),
+                          ),
+                          SizedBox(height: 24.ss),
+                          Obx(() {
+                            switch (controller.forgotPasswordType.value) {
+                              case ForgotPasswordTypes.forgotEmail:
+                                return AppInputField(
+                                    hint: "Email",
+                                    iconPath: "assets/icons/ic_message.svg",
+                                    onChanged: (v) {
+                                      controller.clearErrorOnTyping(v);
+                                      controller.email.value = v;
+                                    });
 
-                          case ForgotPasswordTypes.forgotOTP:
-                              return _otpInputView();
+                              case ForgotPasswordTypes.forgotOTP:
+                                return _otpInputView();
 
-
-                          case ForgotPasswordTypes.forgotResetPassword:
-                            return Column(
-                              children: [
-                                _inputField(
-                                  hint: 'New Password',
-                                  icon: Icons.lock_outline,
-                                  obscureText: obscurePassword,
-                                  suffix: IconButton(
-                                    icon: Icon(
-                                      obscurePassword
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
-                                      color: Colors.grey,
+                              case ForgotPasswordTypes.forgotResetPassword:
+                                return Column(
+                                  children: [
+                                    AppInputField(
+                                      hint: "New Password",
+                                      iconPath: "assets/icons/ic_password.svg",
+                                      onChanged: (v) {
+                                        controller.clearErrorOnTyping(v);
+                                        controller.password.value = v;
+                                      },
+                                      obscureText: obscurePassword,
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          obscurePassword
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
+                                        ),
+                                        onPressed: () {
+                                          setState(
+                                                  () => obscurePassword = !obscurePassword);
+                                        },
+                                      ),
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        obscurePassword = !obscurePassword;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                SizedBox(height: 12.ss),
-                                _inputField(
-                                  hint: 'Confirm Password',
-                                  icon: Icons.lock_outline,
-                                  obscureText: obscureConfirmPassword,
-                                  suffix: IconButton(
-                                    icon: Icon(
-                                      obscureConfirmPassword
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
-                                      color: Colors.grey,
+                                    SizedBox(height: 12.ss),
+                                    AppInputField(
+                                      hint: "Confirm Password",
+                                      iconPath: "assets/icons/ic_password.svg",
+                                      onChanged: (v) {
+                                        controller.clearErrorOnTyping(v);
+                                        controller.confirmPassword.value = v;
+                                      },
+                                      obscureText: obscureConfirmPassword,
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          obscureConfirmPassword
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
+                                        ),
+                                        onPressed: () {
+                                          setState(
+                                                  () => obscureConfirmPassword = !obscureConfirmPassword);
+                                        },
+                                      ),
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        obscureConfirmPassword =
-                                            !obscureConfirmPassword;
-                                      });
-                                    },
+
+                                  ],
+                                );
+                            }
+                          }),
+                          Obx(() => Visibility(
+                            visible: controller.errorMsg.value.isNotEmpty,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 4.ss),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.error_outline_sharp, size: 16.ss, color: ColorsConstant.colorRed),
+                                  SizedBox(width: 4.ss),
+                                  Text(
+                                    controller.errorMsg.value,
+                                    style: TextStyle(fontSize: 13.fs, color: ColorsConstant.colorRed),
                                   ),
-                                ),
-                              ],
-                            );
-                        }
-                      }),
-                      Visibility(
-                          visible: controller.errorMsg.isNotEmpty,
-                          child: Padding(
-                            padding:  EdgeInsets.only(top: 8.ss),
-                            child: Row(
-                              children: [
-                                Icon(Icons.error_outline_sharp,
-                                    size: 16.ss,
-                                    color: ColorsConstant.colorRed),
-                                SizedBox(width: 4.ss),
-                                Text(controller.errorMsg,
-                                    style: TextStyle(
-                                        fontSize: 13.fs,
-                                        color: ColorsConstant.colorRed,
-                                        fontWeight: FontWeight.normal)),
-                              ],
+                                ],
+                              ),
                             ),
                           )),
-                      SizedBox(height: 16.ss),
-                    ],
+                          SizedBox(height: 16.ss),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            bottomNavigationBar: _actionButton(),
-          ));
+                bottomNavigationBar: _actionButton(),
+              ));
         });
   }
 
@@ -283,9 +290,10 @@ class _LoginViewState extends State<ForgotPasswordView> {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.ss),
-              border: Border.all(color: controller.errorMsg.isNotEmpty
-                  ? Colors.red
-                  : Colors.grey),
+              border: Border.all(
+                  color: controller.errorMsg.isNotEmpty
+                      ? Colors.red
+                      : Colors.grey),
             ),
           ),
           focusedPinTheme: defaultPinTheme.copyDecorationWith(
@@ -303,15 +311,17 @@ class _LoginViewState extends State<ForgotPasswordView> {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.ss),
-              border: Border.all(color: controller.errorMsg.isNotEmpty
-                  ? Colors.red
-                  : ColorsConstant.colorPrimary, width: 2.ss),
+              border: Border.all(
+                  color: controller.errorMsg.isNotEmpty
+                      ? Colors.red
+                      : ColorsConstant.colorPrimary,
+                  width: 2.ss),
             ),
           ),
-          onChanged: (value)
-          {
-            if(value.isNotEmpty) {
-              controller.errorMsg="";
+          onChanged: (value) {
+            if (value.isNotEmpty) {
+              controller.setError("");
+              controller.otpController.text = value;
               controller.update([GetxUpdateKey.forgotPassword]);
             }
           },
@@ -342,54 +352,7 @@ class _LoginViewState extends State<ForgotPasswordView> {
             ),
           ],
         )
-
       ],
-    );
-  }
-
-  /// Reusable input field
-  Widget _inputField({
-    required String hint,
-    required IconData icon,
-    bool obscureText = false,
-    Widget? suffix,
-  }) {
-    return TextField(
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: TextStyle(fontSize: 14.fs, color: ColorsConstant.colorText),
-        prefixIcon: Icon(icon),
-        suffixIcon: suffix,
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding: EdgeInsets.symmetric(vertical: 16.ss),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.ss),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.ss),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-      ),
-      onChanged: (value) {
-        if(value.isNotEmpty) {
-          controller.errorMsg="";
-          controller.update([GetxUpdateKey.forgotPassword]);
-        }
-        if(controller.forgotPasswordType.value==ForgotPasswordTypes.forgotEmail){
-          controller.email.value=value;
-        }else if(controller.forgotPasswordType.value==ForgotPasswordTypes.forgotOTP){
-          controller.otpController.text=value;
-        }else if(controller.forgotPasswordType.value==ForgotPasswordTypes.forgotResetPassword) {
-          if(hint=="Confirm Password"){
-            controller.confirmPassword.value=value;
-          }else{
-            controller.password.value=value;
-          }
-        }
-      },
     );
   }
 }

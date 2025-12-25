@@ -8,5 +8,6 @@ class ColorsConstant {
   static const colorRed = Color(0xFFFF0000); // #5E3FB8
   static const colorText = Color(0xFF8C8C94); // #5E3FB8
   static const colorDivider = Color(0xFFF5F5F5); // #5E3FB8
+  static const colorBorderColor = Color(0xFFE3E3E3); // #5E3FB8
 
 }

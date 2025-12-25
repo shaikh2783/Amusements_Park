@@ -15,7 +15,8 @@ class LoginController extends GetxController{
   var password = "".obs;
   var confirmPassword = "".obs;
   var agreeTerms = false.obs;
-  var errorMsg = "";
+  final RxString errorMsg = "".obs;
+
 
   var selectedLocation = "".obs;
   var searchQuery = "".obs;
@@ -37,6 +38,20 @@ class LoginController extends GetxController{
         .toList();
   }
 
+  void setError(String msg) {
+    errorMsg.value = msg;
+    update([GetxUpdateKey.signup]);
+  }
+  void clearError() {
+    if (errorMsg.value.isNotEmpty) {
+      errorMsg.value = "";
+      update([GetxUpdateKey.signup]);
+    }
+  }
+
+  void clearErrorOnTyping(String v) {
+    if (v.isNotEmpty) clearError();
+  }
   void selectLocation(String value) {
     selectedLocation.value = value;
     searchQuery.value = "";
@@ -45,7 +60,7 @@ class LoginController extends GetxController{
 
   void continueAfterLocation() {
     if (selectedLocation.value.isEmpty) {
-      errorMsg = "Please select a location";
+      setError("Please select a location");
       update([GetxUpdateKey.signup]);
       return;
     }
@@ -57,7 +72,7 @@ void checkLogin(){
   if(GetUtils.isEmail(email.value) && password.value.isNotEmpty) {
 
   }else{
-    errorMsg="Please enter valid email & password";
+    setError("Please enter valid email & password");
     update([GetxUpdateKey.login]);
   }
 }
@@ -65,17 +80,17 @@ void checkLogin(){
 
   void checkSignUp() {
     if (firstName.value.isEmpty || lastName.value.isEmpty) {
-      errorMsg = "Please enter your name";
+      setError("Please enter your name");
     } else if (!GetUtils.isEmail(email.value)) {
-      errorMsg = "Invalid email address";
+      setError("Invalid email address");
     } else if (password.value.length < 6) {
-      errorMsg = "Password must be at least 6 characters";
+      setError("Password must be at least 6 characters");
     } else if (password.value != confirmPassword.value) {
-      errorMsg = "Passwords do not match";
+      setError("Passwords do not match");
     } else if (!agreeTerms.value) {
-      errorMsg = "Please accept Terms & Conditions";
+      setError("Please accept Terms & Conditions");
     } else {
-      errorMsg = "";
+      clearError();
       signupType.value = SignUpTypes.selectLocation;
     }
     update([GetxUpdateKey.signup]);

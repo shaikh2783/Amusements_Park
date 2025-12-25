@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iisc_app/Config/Constant/ColorsConstant.dart';
 import 'package:iisc_app/Config/Constant/KeyConstant.dart';
+import 'package:iisc_app/Helper/AppInputField.dart';
 import 'package:iisc_app/Screens/OnBoarding/Controller/ForgotPasswordController.dart';
 import 'package:iisc_app/Screens/OnBoarding/Controller/LoginController.dart';
 import 'package:pinput/pinput.dart';
@@ -41,206 +42,210 @@ class SignUpViewState extends State<SignUpView> {
     return GetBuilder<LoginController>(
         id: GetxUpdateKey.signup,
         builder: (value) {
-          return Scaffold(
-            resizeToAvoidBottomInset: true,
-            body: Stack(
-              fit: StackFit.expand,
-              children: [
-                MediaQuery.removeViewInsets(
-                  context: context,
-                  removeBottom: true,
-                  child: Image.asset(
-                    'assets/image/login_bg.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SafeArea(
-                  bottom: false,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(20.ss, 30.ss, 20.ss, 20.ss),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Visibility(
-                            visible: controller.signupType.value ==
-                                SignUpTypes.selectLocation,
-                            child: GestureDetector(
-                                onTap: () {
-                                  controller.signupType.value = SignUpTypes.signup;
-                                  controller.update([GetxUpdateKey.signup]);
-                                },
-                                child:
-                                    Icon(Icons.arrow_back_sharp, size: 24.ss)),
+          return Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/image/login_bg.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: SafeArea(
+                bottom: false,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(24.ss, 30.ss, 24.ss, 24.ss),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Visibility(
+                          visible: controller.signupType.value ==
+                              SignUpTypes.selectLocation,
+                          child: GestureDetector(
+                              onTap: () {
+                                controller.signupType.value =
+                                    SignUpTypes.signup;
+                                controller.update([GetxUpdateKey.signup]);
+                              },
+                              child:SvgPicture.asset('assets/icons/ic_back.svg',height: 23.ss,width: 24.ss,)),
+                        ),
+                        SizedBox(height: 60.ss),
+                        SvgPicture.asset(
+                          'assets/icons/ic_login_icon.svg',
+                          width: 65.ss,
+                          height: 65.ss,
+                        ),
+                        SizedBox(height: 12.ss),
+                        Text(
+                          controller.getViewTitle(),
+                          style: TextStyle(
+                            fontSize: 20.fs,
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(height: 60.ss),
-                          SvgPicture.asset(
-                            'assets/icons/ic_login_icon.svg',
-                            width: 65.ss,
-                            height: 65.ss,
+                        ),
+                        SizedBox(height: 6.ss),
+                        Text(
+                          controller.getViewSubTitle(),
+                          style: TextStyle(
+                            fontSize: 14.fs,
+                            color: ColorsConstant.colorSecondary,
                           ),
-                          SizedBox(height: 12.ss),
-                          Text(
-                            controller.getViewTitle(),
-                            style: TextStyle(
-                              fontSize: 20.fs,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 6.ss),
-                          Text(
-                            controller.getViewSubTitle(),
-                            style: TextStyle(
-                              fontSize: 14.fs,
-                              color: ColorsConstant.colorSecondary,
-                            ),
-                          ),
-                          SizedBox(height: 30.ss),
-                          Obx(() {
-                            switch (controller.signupType.value) {
-                              case SignUpTypes.signup:
-                                return Column(
-                                  children: [
-                                    _inputField(
-                                      hint: 'First Name',
-                                      icon: Icons.person_outline,
-                                      onChanged: (v) =>
-                                          controller.firstName.value = v,
-                                    ),
-                                    SizedBox(height: 12.ss),
-                                    _inputField(
-                                      hint: 'Last Name',
-                                      icon: Icons.person_outline,
-                                      onChanged: (v) =>
-                                          controller.lastName.value = v,
-                                    ),
-                                    SizedBox(height: 12.ss),
-                                    _inputField(
-                                      hint: 'Email',
-                                      icon: Icons.email_outlined,
-                                      onChanged: (v) =>
-                                          controller.email.value = v,
-                                    ),
-                                    SizedBox(height: 12.ss),
-                                    _inputField(
-                                      hint: 'Password',
-                                      icon: Icons.lock_outline,
-                                      obscureText: obscurePassword,
-                                      suffix: IconButton(
-                                        icon: Icon(
-                                          obscurePassword
-                                              ? Icons.visibility_off
-                                              : Icons.visibility,
-                                        ),
-                                        onPressed: () {
-                                          setState(() => obscurePassword =
-                                              !obscurePassword);
-                                        },
+                        ),
+                        SizedBox(height: 30.ss),
+                        Obx(() {
+                          switch (controller.signupType.value) {
+                            case SignUpTypes.signup:
+                              return Column(
+                                children: [
+                                  AppInputField(
+                                    hint: "First Name",
+                                    iconPath: "assets/icons/ic_user.svg",
+                                    onChanged: (v) {
+                                      controller.clearErrorOnTyping(v);
+                                      controller.firstName.value = v;
+                                    }
+                                  ),
+                                  SizedBox(height: 12.ss),
+                                  AppInputField(
+                                    hint: 'Last Name',
+                                    iconPath: 'assets/icons/ic_user.svg',
+                                    onChanged: (v) {
+                                      controller.clearErrorOnTyping(v);
+                                      controller.lastName.value = v;
+                                    }
+                                  ),
+                                  SizedBox(height: 12.ss),
+                                  AppInputField(
+                                    hint: 'Email',
+                                    iconPath: 'assets/icons/ic_message.svg',
+                                    onChanged: (v) {
+                                      controller.clearErrorOnTyping(v);
+                                      controller.email.value = v;
+                                    }
+                                  ),
+                                  SizedBox(height: 12.ss),
+                                  AppInputField(
+                                    hint: 'Password',
+                                    iconPath: 'assets/icons/ic_password.svg',
+                                    obscureText: obscurePassword,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        obscurePassword
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
                                       ),
-                                      onChanged: (v) =>
-                                          controller.password.value = v,
+                                      onPressed: () {
+                                        setState(() => obscurePassword =
+                                        !obscurePassword);
+                                      },
                                     ),
-                                    SizedBox(height: 12.ss),
-                                    _inputField(
-                                      hint: 'Confirm Password',
-                                      icon: Icons.lock_outline,
-                                      obscureText: obscureConfirmPassword,
-                                      suffix: IconButton(
-                                        icon: Icon(
-                                          obscureConfirmPassword
-                                              ? Icons.visibility_off
-                                              : Icons.visibility,
-                                        ),
-                                        onPressed: () {
-                                          setState(() =>
-                                              obscureConfirmPassword =
-                                                  !obscureConfirmPassword);
-                                        },
+                                    onChanged: (v) {
+                                      controller.clearErrorOnTyping(v);
+                                      controller.password.value = v;
+                                    }
+                                  ),
+                                  SizedBox(height: 12.ss),
+                                  AppInputField(
+                                    hint: 'Confirm Password',
+                                    iconPath: 'assets/icons/ic_password.svg',
+                                    obscureText: obscureConfirmPassword,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        obscureConfirmPassword
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
                                       ),
-                                      onChanged: (v) =>
-                                          controller.confirmPassword.value = v,
+                                      onPressed: () {
+                                        setState(() =>
+                                        obscureConfirmPassword =
+                                        !obscureConfirmPassword);
+                                      },
                                     ),
-                                    SizedBox(height: 14.ss),
-                                  ],
-                                );
+                                    onChanged: (v) {
+                                      controller.clearErrorOnTyping(v);
+                                      controller.confirmPassword.value = v;
+                                    }
+                                  ),
+                                  SizedBox(height: 14.ss),
+                                ],
+                              );
 
-                              case SignUpTypes.selectLocation:
-                                return _locationField();
-
-                            }
-                          }),
-                          Visibility(
-                              visible: controller.errorMsg.isNotEmpty,
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 4.ss),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.error_outline_sharp,
-                                        size: 16.ss,
-                                        color: ColorsConstant.colorRed),
-                                    SizedBox(width: 4.ss),
-                                    Text(controller.errorMsg,
-                                        style: TextStyle(
-                                            fontSize: 13.fs,
-                                            color: ColorsConstant.colorRed,
-                                            fontWeight: FontWeight.normal)),
-                                  ],
+                            case SignUpTypes.selectLocation:
+                              return _locationField();
+                          }
+                        }),
+                        Obx(() => Visibility(
+                          visible: controller.errorMsg.value.isNotEmpty,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 4.ss),
+                            child: Row(
+                              children: [
+                                Icon(Icons.error_outline_sharp, size: 16.ss, color: ColorsConstant.colorRed),
+                                SizedBox(width: 4.ss),
+                                Text(
+                                  controller.errorMsg.value,
+                                  style: TextStyle(fontSize: 13.fs, color: ColorsConstant.colorRed),
                                 ),
-                              )),
-
-                          Visibility(
-                              visible: controller.signupType.value ==
-                                  SignUpTypes.signup,
-                              child: Padding(
-                                padding:  EdgeInsets.only(top: 4.ss,bottom: 12.ss),
-                                child: Obx(() => GestureDetector(
-                                  onTap: () {
-                                    controller.agreeTerms.toggle();
-                                    controller.update([GetxUpdateKey.signup]);
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 20.ss,
-                                        height: 20.ss,
-                                        decoration: BoxDecoration(
-                                          color: controller.agreeTerms.value
-                                              ? ColorsConstant.colorRed
-                                              : Colors.white,
-                                          borderRadius:
-                                          BorderRadius.circular(6),
-                                          border: Border.all(
+                              ],
+                            ),
+                          ),
+                        )),
+                        Visibility(
+                            visible: controller.signupType.value ==
+                                SignUpTypes.signup,
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.only(top: 4.ss, bottom: 12.ss),
+                              child: Obx(() => GestureDetector(
+                                    onTap: () {
+                                      controller.agreeTerms.toggle();
+                                      controller
+                                          .update([GetxUpdateKey.signup]);
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 20.ss,
+                                          height: 20.ss,
+                                          decoration: BoxDecoration(
                                             color: controller.agreeTerms.value
                                                 ? ColorsConstant.colorRed
-                                                : Colors.grey.shade400,
+                                                : Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                            border: Border.all(
+                                              color: controller
+                                                      .agreeTerms.value
+                                                  ? ColorsConstant.colorRed
+                                                  : Colors.grey.shade400,
+                                            ),
+                                          ),
+                                          child: controller.agreeTerms.value
+                                              ? Icon(Icons.check,
+                                                  size: 14.ss,
+                                                  color: Colors.white)
+                                              : null,
+                                        ),
+                                        SizedBox(width: 8.ss),
+                                        Expanded(
+                                          child: Text(
+                                            "I agree to the Terms and Conditions",
+                                            style: TextStyle(fontSize: 13.fs),
                                           ),
                                         ),
-                                        child: controller.agreeTerms.value
-                                            ? Icon(Icons.check,
-                                            size: 14.ss,
-                                            color: Colors.white)
-                                            : null,
-                                      ),
-                                      SizedBox(width: 8.ss),
-                                      Expanded(
-                                        child: Text(
-                                          "I agree to the Terms and Conditions",
-                                          style: TextStyle(fontSize: 13.fs),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                              )),
-                          SizedBox(height: 16.ss),
-                        ],
-                      ),
+                                      ],
+                                    ),
+                                  )),
+                            )),
+                        SizedBox(height: 16.ss),
+                      ],
                     ),
                   ),
                 ),
-              ],
+              ),
+              bottomNavigationBar: _actionButton(),
             ),
-            bottomNavigationBar: _actionButton(),
           );
         });
   }
@@ -307,6 +312,7 @@ class SignUpViewState extends State<SignUpView> {
                         style: TextStyle(
                           decoration: TextDecoration.underline,
                           color: ColorsConstant.colorRed,
+                          decorationColor: ColorsConstant.colorRed,
                           fontSize: 14.fs,
                         ),
                       ),
@@ -328,53 +334,28 @@ class SignUpViewState extends State<SignUpView> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16.ss),
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: ColorsConstant.colorBorderColor),
         ),
         child: Row(
           children: [
-            Icon(Icons.location_on_outlined,
-                color: Colors.grey.shade600),
-            SizedBox(width: 8.ss),
+            SvgPicture.asset('assets/icons/ic_location.svg',height: 20.ss,width: 20.ss,),
+            SizedBox(width: 10.ss),
             Expanded(
               child: Obx(() => Text(
-                controller.selectedLocation.value.isEmpty
-                    ? "Select Location"
-                    : controller.selectedLocation.value,
-                style: TextStyle(
-                  fontSize: 14.fs,
-                  color: controller.selectedLocation.value.isEmpty
-                      ? Colors.grey
-                      : Colors.black,
-                ),
-              )),
+                    controller.selectedLocation.value.isEmpty
+                        ? "Select Location"
+                        : controller.selectedLocation.value,
+                    style: TextStyle(
+                      fontSize: 14.fs,
+                      fontWeight: FontWeight.normal,
+                      color: controller.selectedLocation.value.isEmpty
+                          ? Colors.grey
+                          : Colors.black,
+                    ),
+                  )),
             ),
-            Icon(Icons.keyboard_arrow_down),
+            const Icon(Icons.keyboard_arrow_down),
           ],
-        ),
-      ),
-    );
-  }
-
-
-  /// Reusable input field
-  Widget _inputField({
-    required String hint,
-    required IconData icon,
-    bool obscureText = false,
-    Widget? suffix,
-    ValueChanged<String>? onChanged,
-  }) {
-    return TextField(
-      obscureText: obscureText,
-      onChanged: onChanged,
-      decoration: InputDecoration(
-        hintText: hint,
-        prefixIcon: Icon(icon),
-        suffixIcon: suffix,
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.ss),
         ),
       ),
     );
@@ -451,13 +432,11 @@ class SignUpViewState extends State<SignUpView> {
 
                   return ListView.separated(
                     itemCount: items.length,
-                    separatorBuilder: (_, __) =>
-                        const Divider(height: 1),
+                    separatorBuilder: (_, __) => const Divider(height: 1,color: ColorsConstant.colorBorderColor,),
                     itemBuilder: (context, index) {
                       final location = items[index];
                       return ListTile(
-                        leading:
-                        const Icon(Icons.location_on_outlined),
+                        leading: SvgPicture.asset('assets/icons/ic_location.svg',height: 20.ss,width: 20.ss,),
                         title: Text(location),
                         onTap: () {
                           controller.selectLocation(location);
@@ -475,5 +454,4 @@ class SignUpViewState extends State<SignUpView> {
       isScrollControlled: true,
     );
   }
-
 }

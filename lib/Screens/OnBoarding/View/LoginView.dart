@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:iisc_app/Config/Constant/ColorsConstant.dart';
 import 'package:iisc_app/Config/Constant/KeyConstant.dart';
+import 'package:iisc_app/Helper/AppInputField.dart';
 import 'package:iisc_app/Helper/RouteManagement/RouteManagement.dart';
 import 'package:iisc_app/Screens/OnBoarding/Controller/LoginController.dart';
 import 'package:sizing/sizing.dart';
@@ -84,52 +85,52 @@ class LoginViewState extends State<LoginView> {
                             color: ColorsConstant.colorSecondary,
                           ),
                         ),
-
                         SizedBox(height: 24.ss),
-
-                        _inputField(
-                          hint: 'Email',
-                          icon: Icons.email_outlined,
+                        AppInputField(
+                          hint: "Email",
+                          iconPath: "assets/icons/ic_message.svg",
+                          onChanged: (v) {
+                            controller.clearErrorOnTyping(v);
+                            controller.email.value = v;
+                          }
                         ),
-
                         SizedBox(height: 12.ss),
-
-                        _inputField(
-                          hint: 'Password',
-                          icon: Icons.lock_outline,
+                        AppInputField(
+                          hint: "Password",
+                          iconPath: "assets/icons/ic_password.svg",
+                          onChanged: (v) {
+                            controller.clearErrorOnTyping(v);
+                            controller.password.value = v;
+                          },
                           obscureText: obscurePassword,
-                          suffix: IconButton(
+                          suffixIcon: IconButton(
                             icon: Icon(
                               obscurePassword
                                   ? Icons.visibility_off
                                   : Icons.visibility,
-                              color: Colors.grey,
                             ),
                             onPressed: () {
-                              setState(() {
-                                obscurePassword = !obscurePassword;
-                              });
+                              setState(
+                                  () => obscurePassword = !obscurePassword);
                             },
                           ),
                         ),
-                        Visibility(
-                            visible: controller.errorMsg.isNotEmpty,
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 5.ss),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.error_outline_sharp,
-                                      size: 16.ss,
-                                      color: ColorsConstant.colorRed),
-                                  SizedBox(width: 4.ss),
-                                  Text(controller.errorMsg,
-                                      style: TextStyle(
-                                          fontSize: 13.fs,
-                                          color: ColorsConstant.colorRed,
-                                          fontWeight: FontWeight.normal)),
-                                ],
-                              ),
-                            )),
+                        Obx(() => Visibility(
+                          visible: controller.errorMsg.value.isNotEmpty,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 4.ss),
+                            child: Row(
+                              children: [
+                                Icon(Icons.error_outline_sharp, size: 16.ss, color: ColorsConstant.colorRed),
+                                SizedBox(width: 4.ss),
+                                Text(
+                                  controller.errorMsg.value,
+                                  style: TextStyle(fontSize: 13.fs, color: ColorsConstant.colorRed),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )),
                         SizedBox(height: 12.ss),
 
                         Row(
@@ -157,14 +158,14 @@ class LoginViewState extends State<LoginView> {
                                       ),
                                     ),
                                     child: rememberMe
-                                        ?  Icon(
+                                        ? Icon(
                                             Icons.check,
                                             size: 14.ss,
                                             color: Colors.white,
                                           )
                                         : null,
                                   ),
-                                   SizedBox(width: 8.ss),
+                                  SizedBox(width: 8.ss),
                                   Text('Remember me',
                                       style: TextStyle(
                                           color: ColorsConstant.colorSecondary,
@@ -220,10 +221,12 @@ class LoginViewState extends State<LoginView> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const Expanded(
-                              child: Divider(color: ColorsConstant.colorDivider),
+                              child:
+                                  Divider(color: ColorsConstant.colorDivider),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
                               child: Text(
                                 'Or Login with',
                                 style: TextStyle(
@@ -233,7 +236,8 @@ class LoginViewState extends State<LoginView> {
                               ),
                             ),
                             const Expanded(
-                              child: Divider(color: ColorsConstant.colorDivider),
+                              child:
+                                  Divider(color: ColorsConstant.colorDivider),
                             ),
                           ],
                         ),
@@ -340,44 +344,5 @@ class LoginViewState extends State<LoginView> {
             ),
           );
         });
-  }
-
-  Widget _inputField({
-    required String hint,
-    required IconData icon,
-    bool obscureText = false,
-    Widget? suffix,
-  }) {
-    return TextField(
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: TextStyle(fontSize: 14.fs, color: ColorsConstant.colorText),
-        prefixIcon: Icon(icon),
-        suffixIcon: suffix,
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding: EdgeInsets.symmetric(vertical: 16.ss,horizontal: 16.ss),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.ss),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.ss),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-      ),
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          controller.errorMsg = "";
-          controller.update([GetxUpdateKey.login]);
-        }
-        if (hint == "Email") {
-          controller.email.value = value;
-        } else {
-          controller.password.value = value;
-        }
-      },
-    );
   }
 }

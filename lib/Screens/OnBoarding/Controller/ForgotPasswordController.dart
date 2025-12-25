@@ -14,11 +14,25 @@ class ForgotPasswordController extends GetxController{
   var email = "".obs;
   var password = "".obs;
   var confirmPassword = "".obs;
-  var errorMsg="";
+  final RxString errorMsg = "".obs;
 
+  void setError(String msg) {
+    errorMsg.value = msg;
+    update([GetxUpdateKey.signup]);
+  }
+  void clearError() {
+    if (errorMsg.value.isNotEmpty) {
+      errorMsg.value = "";
+      update([GetxUpdateKey.signup]);
+    }
+  }
+
+  void clearErrorOnTyping(String v) {
+    if (v.isNotEmpty) clearError();
+  }
   void checkEmailId() {
     if (!GetUtils.isEmail(email.value) || email.value.isEmpty) {
-      errorMsg = "Email is not correct";
+      setError("Email is not correct");
       update([GetxUpdateKey.forgotPassword]);
       return;
     }else {
@@ -31,7 +45,7 @@ class ForgotPasswordController extends GetxController{
       update([GetxUpdateKey.forgotPassword]);
       forgotPasswordType.value = ForgotPasswordTypes.forgotResetPassword;
     }else{
-      errorMsg = "OTP is not correct";
+      setError( "OTP is not correct");
       update([GetxUpdateKey.forgotPassword]);
     }
   }
@@ -40,7 +54,7 @@ class ForgotPasswordController extends GetxController{
       update([GetxUpdateKey.forgotPassword]);
       forgotPasswordType.value = ForgotPasswordTypes.forgotEmail;
     }else {
-      errorMsg = "Please enter valid password ";
+      setError( "Please enter valid password ");
       update([GetxUpdateKey.forgotPassword]);
     }
   }
