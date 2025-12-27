@@ -17,6 +17,7 @@ class AppInputField extends StatelessWidget {
     this.enabled = true,
     this.maxLines = 1,
     this.minLines,
+    this.errorText
   });
 
   final String hint;
@@ -34,9 +35,13 @@ class AppInputField extends StatelessWidget {
   final bool enabled;
   final int maxLines;
   final int? minLines;
+  final String? errorText; // ✅ add
+
 
   @override
   Widget build(BuildContext context) {
+    const errorColor = Color(0xFFFF0000); // ✅ FF0000
+
     return TextField(
       controller: controller,
       onChanged: onChanged,
@@ -52,8 +57,8 @@ class AppInputField extends StatelessWidget {
         prefixIcon: Padding(
           padding:  EdgeInsets.only(left: 12.ss, right: 8.ss),
           child: SizedBox(
-            width: 20,
-            height: 20,
+            width: 15,
+            height: 15,
             child: SvgPicture.asset(
               iconPath,
               fit: BoxFit.contain,
@@ -69,6 +74,11 @@ class AppInputField extends StatelessWidget {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.ss),
           borderSide: const BorderSide(color: ColorsConstant.colorBorderColor, width: 1),
+        ),
+        errorText: (errorText != null && errorText!.isNotEmpty) ? '' : null,
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.ss),
+          borderSide: const BorderSide(color: Color(0xFFFF0000), width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.ss),

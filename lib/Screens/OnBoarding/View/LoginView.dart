@@ -37,7 +37,8 @@ class LoginViewState extends State<LoginView> {
     return GetBuilder<LoginController>(
         id: GetxUpdateKey.login,
         builder: (value) {
-          final bottomInset = MediaQuery.of(context).viewPadding.bottom;
+          final bottomInset = MediaQuery.of(context).viewInsets.bottom; // keyboard height
+          final isKeyboardOpen = bottomInset > 0;
 
           return Container(
             decoration: const BoxDecoration(
@@ -51,6 +52,9 @@ class LoginViewState extends State<LoginView> {
               body: SafeArea(
                 bottom: false,
                 child: SingleChildScrollView(
+                  physics: isKeyboardOpen
+                      ? const BouncingScrollPhysics()
+                      : const NeverScrollableScrollPhysics(),
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(
                       24.ss,
@@ -66,7 +70,7 @@ class LoginViewState extends State<LoginView> {
                           width: 65.ss,
                           height: 64.ss,
                         ),
-
+                  
                         SizedBox(height: 16.ss),
                         Text(
                           'Login Account',
@@ -75,13 +79,14 @@ class LoginViewState extends State<LoginView> {
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-
+                  
                         SizedBox(height: 4.ss),
                         Text(
                           'Enter your email and password, or\ncontinue with Apple or Google.',
                           style: TextStyle(
                             fontSize: 14.fs,
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.w400,
+                            height: 20 / 14,
                             color: ColorsConstant.colorSecondary,
                           ),
                         ),
@@ -89,7 +94,9 @@ class LoginViewState extends State<LoginView> {
                         AppInputField(
                           hint: "Email",
                           iconPath: "assets/icons/ic_message.svg",
-                          onChanged: (v) {
+                            errorText: controller.errorMsg.value.isNotEmpty ? controller.errorMsg.value : null,
+                  
+                            onChanged: (v) {
                             controller.clearErrorOnTyping(v);
                             controller.email.value = v;
                           }
@@ -98,6 +105,8 @@ class LoginViewState extends State<LoginView> {
                         AppInputField(
                           hint: "Password",
                           iconPath: "assets/icons/ic_password.svg",
+                          errorText: controller.errorMsg.value.isNotEmpty ? controller.errorMsg.value : null,
+                  
                           onChanged: (v) {
                             controller.clearErrorOnTyping(v);
                             controller.password.value = v;
@@ -132,14 +141,12 @@ class LoginViewState extends State<LoginView> {
                           ),
                         )),
                         SizedBox(height: 12.ss),
-
                         Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  rememberMe = !rememberMe;
-                                });
+                                setState(() => rememberMe = !rememberMe);
                               },
                               child: Row(
                                 children: [
@@ -147,51 +154,50 @@ class LoginViewState extends State<LoginView> {
                                     width: 18.ss,
                                     height: 18.ss,
                                     decoration: BoxDecoration(
-                                      color: rememberMe
-                                          ? ColorsConstant.colorRed
-                                          : Colors.white,
+                                      color: rememberMe ? ColorsConstant.colorRed : Colors.white,
                                       borderRadius: BorderRadius.circular(6),
                                       border: Border.all(
-                                        color: rememberMe
-                                            ? ColorsConstant.colorRed
-                                            : Colors.grey.shade400,
+                                        color: rememberMe ? ColorsConstant.colorRed : Colors.grey.shade400,
                                       ),
                                     ),
                                     child: rememberMe
-                                        ? Icon(
-                                            Icons.check,
-                                            size: 14.ss,
-                                            color: Colors.white,
-                                          )
+                                        ? Icon(Icons.check, size: 14.ss, color: Colors.white)
                                         : null,
                                   ),
                                   SizedBox(width: 8.ss),
-                                  Text('Remember me',
-                                      style: TextStyle(
-                                          color: ColorsConstant.colorSecondary,
-                                          fontSize: 13.fs,
-                                          fontWeight: FontWeight.normal)),
+                                  Text(
+                                    'Remember me',
+                                    style: TextStyle(
+                                      color: ColorsConstant.colorSecondary,
+                                      fontSize: 13.fs,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
+                  
                             const Spacer(),
+                  
                             TextButton(
+                              style: TextButton.styleFrom( padding: EdgeInsets.zero),
                               onPressed: () {
                                 RouteManagement().routeToForgotPassword();
                               },
                               child: Text(
                                 'Forgot password?',
                                 style: TextStyle(
-                                    color: ColorsConstant.colorRed,
-                                    fontSize: 13.fs,
-                                    fontWeight: FontWeight.normal),
+                                  color: ColorsConstant.colorRed,
+                                  fontSize: 13.fs,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                             ),
                           ],
                         ),
-
+                  
                         SizedBox(height: 24.ss),
-
+                  
                         /// Sign In Button
                         SizedBox(
                           width: double.infinity,
@@ -215,7 +221,7 @@ class LoginViewState extends State<LoginView> {
                             ),
                           ),
                         ),
-
+                  
                         SizedBox(height: 24.ss),
                         Row(
                           mainAxisSize: MainAxisSize.min,
@@ -247,6 +253,7 @@ class LoginViewState extends State<LoginView> {
                           children: [
                             Expanded(
                               child: Container(
+                                height: 49.ss,
                                 padding: EdgeInsets.all(14.ss),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24.ss),
@@ -279,6 +286,7 @@ class LoginViewState extends State<LoginView> {
                             SizedBox(width: 12.ss),
                             Expanded(
                               child: Container(
+                                height: 49.ss,
                                 padding: EdgeInsets.all(12.ss),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24.ss),
